@@ -24,12 +24,6 @@ func main() {
 	// Read all records.
 	result, _ := r.ReadAll()
 
-	//	s := "This is a string"
-	//	s = result[0][0]
-
-	//	fresult, err := strconv.ParseFloat(result[0][0], 64)
-	//	fmt.Printf("fresult = %v\n", fresult)
-
 	fmt.Printf("Lines: %v", len(result))
 	fmt.Println()
 
