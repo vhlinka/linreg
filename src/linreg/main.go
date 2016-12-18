@@ -208,9 +208,22 @@ func main() {
 
 	errorterm, err = matrix.MatrixSubtract(errorterm, y)
 
-	//	errortermx :=
+	errortermx, err := mat.ElementwiseOperation(newarray, errorterm, mat.MultiplicationOperation)
 
-	fmt.Println(errorterm)
+	fmt.Println(errortermx)
+
+	sumerrors, _ := matrix.SumAll(errortermx)
+
+	fmt.Println()
+	fmt.Println(sumerrors)
+
+	alpha := 0.1
+	m := float64(len(y))
+	sc := (alpha * 1.0 / m)
+
+	newtheta, err := mat.ScalerArrayOperation(sumerrors, sc, mat.MultiplicationOperation)
+	fmt.Println()
+	fmt.Println(newtheta)
 
 }
 
