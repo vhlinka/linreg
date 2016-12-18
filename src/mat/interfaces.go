@@ -5,6 +5,7 @@ import (
 )
 
 type OperationType int
+type DimensionType int
 
 const (
 	AdditionOperation OperationType = iota
@@ -17,6 +18,12 @@ const (
 	BroadcastNone    = 0
 	BroadcastColumns = 1
 	BroadcastRows    = 2
+)
+
+const (
+	ColumnDimension DimensionType = iota
+	RowDimension
+	RowAndColumnDimension
 )
 
 //
@@ -189,4 +196,61 @@ func ScalerArrayOperation(a []float64, b float64, op OperationType) ([]float64, 
 		newarray[i] = opfn(a[i], b)
 	}
 	return newarray, err
+}
+
+func SumArray(a [][]float64, dim DimensionType) ([][]float64, error) {
+
+	var err error
+	nrows := len(a)
+	ncols := len(a[0])
+
+	switch dim {
+	case ColumnDimension:
+		nrows = 1
+	case RowDimension:
+		ncols = 1
+	case RowAndColumnDimension:
+	default:
+
+	}
+	// creat a new target matrix
+	newarray := make([][]float64, nrows)
+	frow := make([]float64, nrows*(ncols))
+	for i := range newarray {
+		newarray[i], frow = frow[:ncols], frow[ncols:]
+	}
+
+	for i := range a {
+		for j := range a[i] {
+			newarray[0][j] += a[i][j]
+		}
+	}
+
+	return newarray, err
+}
+
+func Transpose(a [][]float64) ([][]float64, error) {
+
+	var err error
+	nrows := len(a)
+	ncols := len(a[0])
+
+	trows := ncols
+	tcols := nrows
+
+	// creat a new target matrix
+	newarray := make([][]float64, trows)
+	frow := make([]float64, trows*(tcols))
+	for i := range newarray {
+		newarray[i], frow = frow[:tcols], frow[tcols:]
+	}
+
+	for i := range a {
+		for j := range a[i] {
+			newarray[j][i] += a[i][j]
+		}
+	}
+
+	return newarray, err
+
 }

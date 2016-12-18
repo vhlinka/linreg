@@ -204,26 +204,36 @@ func main() {
 	//theta = zeros(3, 1);
 	theta := [][]float64{{0}, {0}, {0}}
 
-	errorterm, err := matrix.MatrixMultiply(newarray, theta)
-
-	errorterm, err = matrix.MatrixSubtract(errorterm, y)
-
-	errortermx, err := mat.ElementwiseOperation(newarray, errorterm, mat.MultiplicationOperation)
-
-	fmt.Println(errortermx)
-
-	sumerrors, _ := matrix.SumAll(errortermx)
-
-	fmt.Println()
-	fmt.Println(sumerrors)
-
 	alpha := 0.1
 	m := float64(len(y))
 	sc := (alpha * 1.0 / m)
 
-	newtheta, err := mat.ScalerArrayOperation(sumerrors, sc, mat.MultiplicationOperation)
+	for iter := 0; iter < 50; iter++ {
+		// Error_Term = ( X * theta ) - y;
+		errorterm, err := matrix.MatrixMultiply(newarray, theta)
+		errorterm, err = matrix.MatrixSubtract(errorterm, y)
+
+		// 	Error_Term_X = X .* Error_Term;
+		errortermx, err := mat.ElementwiseOperation(newarray, errorterm, mat.MultiplicationOperation)
+
+		// 	Sum_Errors = sum(Error_Term_X);
+		sumerrors, err := mat.SumArray(errortermx, mat.ColumnDimension)
+
+		// 	theta = theta - (( alpha * 1/m ) * Sum_Errors)';
+		newtheta, err := mat.ScalerOperation(sumerrors, sc, mat.MultiplicationOperation)
+		newtheta, err = mat.Transpose(newtheta)
+		theta, err = mat.ElementwiseOperation(theta, newtheta, mat.SubtractionOperation)
+
+		if err != nil {
+			fmt.Println()
+			fmt.Println("===== ERROR DETECTED ========")
+		}
+
+	}
+
 	fmt.Println()
-	fmt.Println(newtheta)
+	fmt.Println("===== NEW THETA ========")
+	fmt.Println(theta)
 
 }
 

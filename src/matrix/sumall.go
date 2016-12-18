@@ -1,8 +1,6 @@
 package matrix
 
-import (
-	"fmt"
-)
+import ()
 
 //
 // return sum by column and sum by row
@@ -10,12 +8,6 @@ import (
 //
 //
 func SumAll(a [][]float64) ([]float64, []float64) {
-
-	for i := range a {
-		for j := range a[i] {
-			fmt.Printf("%v, ", a[i][j])
-		}
-	}
 
 	nrows := len(a)
 	ncols := len(a[0])
