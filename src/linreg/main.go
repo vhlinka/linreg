@@ -157,7 +157,7 @@ func main() {
 
 	newFeature := [][]float64{{1650.0, 3.0}}
 	fmt.Println(newFeature)
-	stats.ApplyNormalizeParameters(newFeature, mean, stdev)
+	err = stats.ApplyNormalizeParameters(newFeature, mean, stdev)
 	newFeature, err = matrix.AddOnesColumn(newFeature, 0)
 	fmt.Println(newFeature)
 

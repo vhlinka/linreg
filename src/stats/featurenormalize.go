@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -63,14 +64,28 @@ func FeatureNormalize(a [][]float64) ([]float64, []float64) {
 }
 
 //
+// This functionapplies the normalization parameters to new features
 //
+// The number of columns in the two dimenstional matrix must equal the number of elements in
+// the mu and sigma arrays
 //
-func ApplyNormalizeParameters(a [][]float64, mu []float64, sigma []float64) {
+func ApplyNormalizeParameters(a [][]float64, mu []float64, sigma []float64) error {
+
+	var err error
+
+	ncols := len(a[0])
+
+	if ncols != len(mu) && ncols != len(sigma) {
+		err = fmt.Errorf("Number of Columns in the Matrix must equal number elements in array")
+		return err
+	}
 
 	for i := range a {
 		for j := range a[i] {
 			a[i][j] = (a[i][j] - mu[j]) / sigma[j]
 		}
 	}
+
+	return err
 
 }
