@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+const UntilEndOfDimension = -1
+
 //
 // return a subset of the source Matrix
 //
@@ -17,10 +19,10 @@ func SubMatrix(a [][]float64, row1 int, row2 int, col1 int, col2 int) ([][]float
 	nrows := len(a)
 	ncols := len(a[0])
 
-	if row2 == -1 {
+	if row2 == UntilEndOfDimension {
 		row2 = nrows
 	}
-	if col2 == -1 {
+	if col2 == UntilEndOfDimension {
 		col2 = ncols
 	}
 	targetrows := row2 - row1

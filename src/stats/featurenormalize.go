@@ -61,3 +61,16 @@ func FeatureNormalize(a [][]float64) ([]float64, []float64) {
 
 	return average, stddev
 }
+
+//
+//
+//
+func ApplyNormalizeParameters(a [][]float64, mu []float64, sigma []float64) {
+
+	for i := range a {
+		for j := range a[i] {
+			a[i][j] = (a[i][j] - mu[j]) / sigma[j]
+		}
+	}
+
+}

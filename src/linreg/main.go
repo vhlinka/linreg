@@ -31,6 +31,7 @@ func main() {
 	ncols := len(result[0])
 	fmt.Printf("array 'result' has %v ROWS and %v COLS\n", nrows, ncols)
 
+	// make a float64 version of the array of data read from file
 	farray := make([][]float64, nrows)
 	frow := make([]float64, nrows*ncols)
 	for i := range farray {
@@ -40,12 +41,6 @@ func main() {
 	for i := range result {
 		for j := range result[i] {
 			farray[i][j], err = strconv.ParseFloat(result[i][j], 64)
-		}
-	}
-
-	for i := range farray {
-		for j := range farray[i] {
-			fmt.Printf("%v, ", farray[i][j])
 		}
 	}
 
@@ -85,23 +80,23 @@ func main() {
 		fmt.Println(c)
 	*/
 
-	fmt.Println()
-	fmt.Println("Test Elemtwise Matrix Multiply")
-	a := [][]float64{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
-	b := [][]float64{{10, 20, 30}, {10, 20, 30}, {10, 20, 30}}
+	//	fmt.Println()
+	//	fmt.Println("Test Elemtwise Matrix Multiply")
+	//	a := [][]float64{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+	//	b := [][]float64{{10, 20, 30}, {10, 20, 30}, {10, 20, 30}}
 	//	c, err := matrix.MatrixAdd(a, b)
 	//	c, err := matrix.MatrixElementwiseMultiply(a, b)
-	c, err := mat.ElementwiseOperation(a, b, mat.DivisionOperation)
-	fmt.Println(c)
+	//	c, err := mat.ElementwiseOperation(a, b, mat.DivisionOperation)
+	//	fmt.Println(c)
 
 	//////// ========================= try to implement the linear Regression using Gradient Decent
 
 	//%% Load Data
 	//data = load('ex1data2.txt');
 	//X = data(:, 1:2);
-	X, err := matrix.SubMatrix(farray, 0, -1, 0, 2)
+	X, err := matrix.SubMatrix(farray, 0, matrix.UntilEndOfDimension, 0, 2)
 	//y = data(:, 3);
-	y, err := matrix.SubMatrix(farray, 0, -1, 2, 3)
+	y, err := matrix.SubMatrix(farray, 0, matrix.UntilEndOfDimension, 2, 3)
 
 	//m = length(y);
 
@@ -116,7 +111,7 @@ func main() {
 	//X = [ones(m, 1) X];
 
 	newarray, err := matrix.AddOnesColumn(X, 0)
-	fmt.Println(newarray)
+	//	fmt.Println(newarray)
 
 	//alpha = 0.1;
 	//num_iters = 50;
@@ -154,8 +149,21 @@ func main() {
 
 	}
 
-	fmt.Println()
 	fmt.Println("===== NEW THETA ========")
 	fmt.Println(theta)
 
+	// use the trained model to predict the price of a new house
+	// price = [1 ([1650 3] - mu) ./ sigma] * theta;
+
+	newFeature := [][]float64{{1650.0, 3.0}}
+	fmt.Println(newFeature)
+	stats.ApplyNormalizeParameters(newFeature, mean, stdev)
+	newFeature, err = matrix.AddOnesColumn(newFeature, 0)
+	fmt.Println(newFeature)
+
+	answer, err := matrix.MatrixMultiply(newFeature, theta)
+
+	fmt.Println(answer)
+	//Predicted price of a 1650 sq-ft, 3 br house (using gradient descent):
+	//  $292748.085232
 }
