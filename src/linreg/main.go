@@ -176,10 +176,6 @@ func main() {
 	//y = data(:, 3);
 	y, err := matrix.SubMatrix(farray, 0, -1, 2, 3)
 
-	fmt.Printf("\nX: ")
-	fmt.Println(X)
-	fmt.Printf("\ny: ")
-	fmt.Println(y)
 	//m = length(y);
 
 	//% Scale features and set them to zero mean
