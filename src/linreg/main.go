@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"encoding/csv"
 	"fmt"
-	"github.com/gonum/matrix/mat64"
 	"mat"
 	"matrix"
 	"os"
@@ -32,20 +31,6 @@ func main() {
 	ncols := len(result[0])
 	fmt.Printf("array 'result' has %v ROWS and %v COLS\n", nrows, ncols)
 
-	//
-	//	-- allocate storage for the float64 version of the data
-	//
-	// Allocate the top-level slice, the same as before.
-	//picture := make([][]uint8, YSize) // One row per unit of y.
-
-	// Allocate one large slice to hold all the pixels.
-	//pixels := make([]uint8, XSize*YSize) // Has type []uint8 even though picture is [][]uint8.
-
-	fmat := mat64.NewDense(nrows, ncols, nil)
-	//	farray := make([nrows][ncols]float64)
-	fmat.Set(0, 0, 1.0)
-	//	fmt.Printf("farray created %v\n", fmat.At(0, 0))
-
 	farray := make([][]float64, nrows)
 	frow := make([]float64, nrows*ncols)
 	for i := range farray {
@@ -56,30 +41,12 @@ func main() {
 		for j := range result[i] {
 			farray[i][j], err = strconv.ParseFloat(result[i][j], 64)
 		}
-		// Element count.
-		//		fmt.Printf("Elements: %v", len(result[i]))
-		//		fmt.Println()
-		// Elements.
-		//				fmt.Println(result[i])
-
 	}
 
 	for i := range farray {
 		for j := range farray[i] {
 			fmt.Printf("%v, ", farray[i][j])
 		}
-	}
-
-	// ==== now do the same thing with the matrix
-
-	for i := range result {
-		for j := range result[i] {
-			fval, err := strconv.ParseFloat(result[i][j], 64)
-			if err == nil {
-				fmat.Set(i, j, fval)
-			}
-		}
-
 	}
 
 	// ========================= start using the stats packae
@@ -190,81 +157,5 @@ func main() {
 	fmt.Println()
 	fmt.Println("===== NEW THETA ========")
 	fmt.Println(theta)
-
-}
-
-//
-//    Allocate the top-level slice.
-//picture := make([][]uint8, YSize) // One row per unit of y.
-//    Loop over the rows, allocating the slice for each row.
-//for i := range picture {
-//	picture[i] = make([]uint8, XSize)
-//}
-
-//
-//
-//
-//     Allocate the top-level slice, the same as before.
-//picture := make([][]uint8, YSize) // One row per unit of y.
-//     Allocate one large slice to hold all the pixels.
-//pixels := make([]uint8, XSize*YSize) // Has type []uint8 even though picture is [][]uint8.
-//     Loop over the rows, slicing each row from the front of the remaining pixels slice.
-//for i := range picture {
-//	picture[i], pixels = pixels[:XSize], pixels[XSize:]
-//}
-
-func mfetureNormalize(x mat64.Matrix) {
-
-	fmt.Println()
-	fmt.Println(" ===> inside MAXTRIX Version of featureNormailize()")
-	fmt.Println()
-
-	nrows, ncols := x.Dims()
-	for i := 0; i < nrows; i++ {
-		for j := 0; j < ncols; j++ {
-			fmt.Printf("%v, ", x.At(i, j))
-		}
-	}
-
-	fmt.Println()
-	msum := mat64.Sum(x)
-	fmt.Printf(" Sum(x) = %v\n", msum)
-
-}
-
-//
-// return sum by column and sum by row
-//
-//
-//
-func sumAll(a [][]float64) {
-
-	fmt.Println()
-	fmt.Println(" ===> inside ARRAY Version of featureNormailize()")
-	fmt.Println()
-
-	for i := range a {
-		for j := range a[i] {
-			fmt.Printf("%v, ", a[i][j])
-		}
-	}
-
-	nrows := len(a)
-	ncols := len(a[0])
-
-	// =============== sumColumns
-	colsums := make([]float64, ncols)
-	rowsums := make([]float64, nrows)
-
-	for i := range a {
-		for j := range a[i] {
-			colsums[j] += a[i][j]
-			rowsums[i] += a[i][j]
-		}
-	}
-	fmt.Println()
-	fmt.Print("SUMS : ")
-	fmt.Println(colsums)
-	fmt.Println(rowsums)
 
 }
