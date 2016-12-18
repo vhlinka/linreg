@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"github.com/gonum/matrix/mat64"
+	"mat"
 	"matrix"
 	"os"
 	"stats"
@@ -162,7 +163,8 @@ func main() {
 	a := [][]float64{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
 	b := [][]float64{{10, 20, 30}, {10, 20, 30}, {10, 20, 30}}
 	//	c, err := matrix.MatrixAdd(a, b)
-	c, err := matrix.MatrixElementwiseMultiply(a, b)
+	//	c, err := matrix.MatrixElementwiseMultiply(a, b)
+	c, err := mat.ElementwiseOperation(a, b, mat.DivisionOperation)
 	fmt.Println(c)
 
 	//////// ========================= try to implement the linear Regression using Gradient Decent
