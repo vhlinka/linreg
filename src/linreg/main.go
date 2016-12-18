@@ -81,46 +81,6 @@ func main() {
 		}
 
 	}
-	/*
-		fmt.Println()
-		fmt.Println("Now using the matrix library")
-		fmt.Println()
-
-		nrows, ncols = fmat.Dims()
-		for i := 0; i < nrows; i++ {
-			for j := 0; j < ncols; j++ {
-				fmt.Printf("%v, ", fmat.At(i, j))
-			}
-		}
-	*/
-	// try caling a function
-	//	mfetureNormalize(fmat)
-
-	//	fmt.Println()
-	//	fmt.Println("+++++++>>>> AFTER Function call")
-	//	fmt.Println()
-
-	//	nrows, ncols = fmat.Dims()
-	//	for i := 0; i < nrows; i++ {
-	//		for j := 0; j < ncols; j++ {
-	//			fmt.Printf("%v, ", fmat.At(i, j))
-	//		}
-	//	}
-
-	// now use the array version
-	//	sumAll(farray)
-
-	/*
-		fmt.Println()
-		fmt.Println("+++++++>>>> AFTER Function call")
-		fmt.Println()
-
-		for i := range farray {
-			for j := range farray[i] {
-				fmt.Printf("%v, ", farray[i][j])
-			}
-		}
-	*/
 
 	// ========================= start using the stats packae
 	//	mean, stdev := stats.FeatureNormalize(farray)
